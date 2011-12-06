@@ -1,4 +1,9 @@
 (function() {
+  this.waveformColor = {
+    r: 195,
+    g: 127,
+    b: 63
+  };
   this.Waveform = function(_arg) {
     var canvas, file, loadBuffer, onReady, onStatus, req, sections, self, status;
     file = _arg.file, canvas = _arg.canvas, onStatus = _arg.onStatus, onReady = _arg.onReady;
@@ -51,10 +56,10 @@
         var gradient, h;
         h = val * 50 * height;
         gradient = ctx.createLinearGradient(0, height / 2 - h / 2, 0, height / 2 + h / 2);
-        gradient.addColorStop(0, "rgba(195, 127, 63, 0)");
-        gradient.addColorStop(0.4, "rgba(195, 127, 63, 1)");
-        gradient.addColorStop(0.6, "rgba(195, 127, 63, 1)");
-        gradient.addColorStop(1, "rgba(195, 127, 63, 0)");
+        gradient.addColorStop(0.0, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 0)");
+        gradient.addColorStop(0.4, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 1)");
+        gradient.addColorStop(0.6, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 1)");
+        gradient.addColorStop(1.0, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 0)");
         ctx.fillStyle = gradient;
         return ctx.fillRect(i, height / 2 - h / 2, 1, h);
       },

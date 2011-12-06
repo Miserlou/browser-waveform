@@ -1,5 +1,7 @@
 
-@Waveform = ({file, canvas, onStatus,onReady}) ->
+@waveformColor = {r: 195, g: 127, b: 63}
+
+@Waveform = ({file, canvas, onStatus, onReady}) ->
   canvas = $(canvas)
   status = $(status)
 
@@ -72,10 +74,10 @@
       h = val*50*height
 
       gradient = ctx.createLinearGradient(0,height/2-h/2,0,height/2+h/2)
-      gradient.addColorStop( 0, "rgba(195, 127, 63, 0)")
-      gradient.addColorStop(0.4, "rgba(195, 127, 63, 1)")
-      gradient.addColorStop(0.6, "rgba(195, 127, 63, 1)")
-      gradient.addColorStop(  1, "rgba(195, 127, 63, 0)")
+      gradient.addColorStop(0.0,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 0)")
+      gradient.addColorStop(0.4,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 1)")
+      gradient.addColorStop(0.6,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 1)")
+      gradient.addColorStop(1.0,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 0)")
       ctx.fillStyle = gradient
 
       ctx.fillRect(i,height/2-h/2,1,h)
