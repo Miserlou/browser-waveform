@@ -43,7 +43,6 @@
 @WaveformView = (canvas) ->
   {width,height} = canvas[0]
   ctx = canvas[0].getContext('2d')
-  canvas[0].style.setProperty("background-color", "rgb(243, 205, 138)");
 
   cursor= $ """
     <div style="

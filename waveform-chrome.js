@@ -36,7 +36,6 @@
     var ctx, cursor, height, overlay, self, width, _ref;
     _ref = canvas[0], width = _ref.width, height = _ref.height;
     ctx = canvas[0].getContext('2d');
-    canvas[0].style.setProperty("background-color", "rgb(243, 205, 138)");
     cursor = $("<div style=\"\n  position: relative;\n  height: " + height + "px;\n  width: 2px;\n  background-color: #800;\">");
     overlay = $("<div style=\"\n  position: relative;\n  top: -" + height + "px;\n  height: 0px;\">");
     overlay.append(cursor);
