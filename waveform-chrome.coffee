@@ -1,14 +1,11 @@
-
-@waveformColor = {r: 195, g: 127, b: 63}
-
-@Waveform = ({file, canvas, onStatus, onReady}) ->
+@Waveform = ({file, canvas, waveformColor, onStatus, onReady}) ->
   canvas = $(canvas)
   status = $(status)
 
   sections = canvas.attr('width')
 
   self =
-    view: WaveformView canvas
+    view: WaveformView(canvas, waveformColor)
 
   req = new XMLHttpRequest()
   req.open 'GET', file, true
@@ -42,7 +39,7 @@
   self
 
 
-@WaveformView = (canvas) ->
+@WaveformView = (canvas, waveformColor) ->
   {width,height} = canvas[0]
   ctx = canvas[0].getContext('2d')
 
@@ -74,10 +71,10 @@
       h = val*50*height
 
       gradient = ctx.createLinearGradient(0,height/2-h/2,0,height/2+h/2)
-      gradient.addColorStop(0.0,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 0)")
-      gradient.addColorStop(0.4,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 1)")
-      gradient.addColorStop(0.6,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 1)")
-      gradient.addColorStop(1.0,"rgba("+@waveformColor.r+","+@waveformColor.g+","+@waveformColor.b+", 0)")
+      gradient.addColorStop(0.0,"rgba("+waveformColor.r+","+waveformColor.g+","+waveformColor.b+", 0)")
+      gradient.addColorStop(0.4,"rgba("+waveformColor.r+","+waveformColor.g+","+waveformColor.b+", 1)")
+      gradient.addColorStop(0.6,"rgba("+waveformColor.r+","+waveformColor.g+","+waveformColor.b+", 1)")
+      gradient.addColorStop(1.0,"rgba("+waveformColor.r+","+waveformColor.g+","+waveformColor.b+", 0)")
       ctx.fillStyle = gradient
 
       ctx.fillRect(i,height/2-h/2,1,h)

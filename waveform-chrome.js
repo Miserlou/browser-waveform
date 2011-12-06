@@ -1,17 +1,12 @@
 (function() {
-  this.waveformColor = {
-    r: 195,
-    g: 127,
-    b: 63
-  };
   this.Waveform = function(_arg) {
-    var canvas, file, loadBuffer, onReady, onStatus, req, sections, self, status;
-    file = _arg.file, canvas = _arg.canvas, onStatus = _arg.onStatus, onReady = _arg.onReady;
+    var canvas, file, loadBuffer, onReady, onStatus, req, sections, self, status, waveformColor;
+    file = _arg.file, canvas = _arg.canvas, waveformColor = _arg.waveformColor, onStatus = _arg.onStatus, onReady = _arg.onReady;
     canvas = $(canvas);
     status = $(status);
     sections = canvas.attr('width');
     self = {
-      view: WaveformView(canvas)
+      view: WaveformView(canvas, waveformColor)
     };
     req = new XMLHttpRequest();
     req.open('GET', file, true);
@@ -37,7 +32,7 @@
     };
     return self;
   };
-  this.WaveformView = function(canvas) {
+  this.WaveformView = function(canvas, waveformColor) {
     var ctx, cursor, height, overlay, self, width, _ref;
     _ref = canvas[0], width = _ref.width, height = _ref.height;
     ctx = canvas[0].getContext('2d');
@@ -56,10 +51,10 @@
         var gradient, h;
         h = val * 50 * height;
         gradient = ctx.createLinearGradient(0, height / 2 - h / 2, 0, height / 2 + h / 2);
-        gradient.addColorStop(0.0, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 0)");
-        gradient.addColorStop(0.4, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 1)");
-        gradient.addColorStop(0.6, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 1)");
-        gradient.addColorStop(1.0, "rgba(" + this.waveformColor.r + "," + this.waveformColor.g + "," + this.waveformColor.b + ", 0)");
+        gradient.addColorStop(0.0, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 0)");
+        gradient.addColorStop(0.4, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 1)");
+        gradient.addColorStop(0.6, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 1)");
+        gradient.addColorStop(1.0, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 0)");
         ctx.fillStyle = gradient;
         return ctx.fillRect(i, height / 2 - h / 2, 1, h);
       },
