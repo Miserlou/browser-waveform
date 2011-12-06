@@ -1,4 +1,4 @@
-
+(function() {
   this.Waveform = function(_arg) {
     var canvas, file, loadBuffer, onReady, onStatus, req, sections, self, status;
     file = _arg.file, canvas = _arg.canvas, onStatus = _arg.onStatus, onReady = _arg.onReady;
@@ -32,13 +32,12 @@
     };
     return self;
   };
-
   this.WaveformView = function(canvas) {
     var ctx, cursor, height, overlay, self, width, _ref;
     _ref = canvas[0], width = _ref.width, height = _ref.height;
     ctx = canvas[0].getContext('2d');
-    ctx.fillStyle = 'black';
-    cursor = $("<div style=\"\n  position: relative;\n  height: " + height + "px;\n  width: 2px;\n  background-color: blue;\">");
+    canvas[0].style.setProperty("background-color", "rgb(243, 205, 138)");
+    cursor = $("<div style=\"\n  position: relative;\n  height: " + height + "px;\n  width: 2px;\n  background-color: #800;\">");
     overlay = $("<div style=\"\n  position: relative;\n  top: -" + height + "px;\n  height: 0px;\">");
     overlay.append(cursor);
     canvas.after(overlay);
@@ -50,8 +49,14 @@
     });
     return self = {
       drawBar: function(i, val) {
-        var h;
+        var gradient, h;
         h = val * 50 * height;
+        gradient = ctx.createLinearGradient(0, height / 2 - h / 2, 0, height / 2 + h / 2);
+        gradient.addColorStop(0, "rgba(195, 127, 63, 0)");
+        gradient.addColorStop(0.4, "rgba(195, 127, 63, 1)");
+        gradient.addColorStop(0.6, "rgba(195, 127, 63, 1)");
+        gradient.addColorStop(1, "rgba(195, 127, 63, 0)");
+        ctx.fillStyle = gradient;
         return ctx.fillRect(i, height / 2 - h / 2, 1, h);
       },
       moveCursor: function(pos) {
@@ -59,7 +64,6 @@
       }
     };
   };
-
   this.PlayBuffer = function(audio, buffer) {
     var node, paused, self, start, timeBasis, timeStart;
     node = null;
@@ -101,7 +105,6 @@
       }
     };
   };
-
   this.ProcessAudio = {
     extract: function(buffer, sections, out, done) {
       var f, i, int, len;
@@ -117,10 +120,10 @@
           i++;
           if (i >= sections) {
             clearInterval(int);
-            if (typeof done === "function") done();
+            if (typeof done === "function") {
+              done();
+            }
             break;
-          } else {
-            _results.push(void 0);
           }
         }
         return _results;
@@ -137,3 +140,4 @@
       return Math.sqrt(sum / data.length);
     }
   };
+}).call(this);

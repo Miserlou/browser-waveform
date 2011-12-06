@@ -43,14 +43,14 @@
 @WaveformView = (canvas) ->
   {width,height} = canvas[0]
   ctx = canvas[0].getContext('2d')
-  ctx.fillStyle = 'black'
+  canvas[0].style.setProperty("background-color", "rgb(243, 205, 138)");
 
   cursor= $ """
     <div style="
       position: relative;
       height: #{height}px;
       width: 2px;
-      background-color: blue;">
+      background-color: #800;">
     """
 
   overlay = $ """
@@ -71,6 +71,14 @@
   self =
     drawBar: (i,val) ->
       h = val*50*height
+
+      gradient = ctx.createLinearGradient(0,height/2-h/2,0,height/2+h/2)
+      gradient.addColorStop( 0, "rgba(195, 127, 63, 0)")
+      gradient.addColorStop(0.4, "rgba(195, 127, 63, 1)")
+      gradient.addColorStop(0.6, "rgba(195, 127, 63, 1)")
+      gradient.addColorStop(  1, "rgba(195, 127, 63, 0)")
+      ctx.fillStyle = gradient
+
       ctx.fillRect(i,height/2-h/2,1,h)
     moveCursor: (pos) ->
       cursor.css 'left', pos*width
