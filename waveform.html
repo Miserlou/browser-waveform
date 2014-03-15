@@ -6,14 +6,16 @@
 <div id="play"><button type="button">Play / Pause</div>
 
 <style>
-canvas { border: solid 1px black }
+canvas { border: solid 1px black; background: rgb(243, 205, 138); }
 </style>
 
 <script>
+
 $(function() {
   var sound = Waveform({
     file: 'src.ogg',
     canvas: $('#canvas'),
+    waveformColor: {r: 195, g: 127, b: 63},
     onStatus: function(x) {
       $('#status').text('Loading '+Math.floor(x*100)+'%')
     },

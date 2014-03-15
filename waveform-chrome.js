@@ -1,12 +1,12 @@
-
+(function() {
   this.Waveform = function(_arg) {
-    var canvas, file, loadBuffer, onReady, onStatus, req, sections, self, status;
-    file = _arg.file, canvas = _arg.canvas, onStatus = _arg.onStatus, onReady = _arg.onReady;
+    var canvas, file, loadBuffer, onReady, onStatus, req, sections, self, status, waveformColor;
+    file = _arg.file, canvas = _arg.canvas, waveformColor = _arg.waveformColor, onStatus = _arg.onStatus, onReady = _arg.onReady;
     canvas = $(canvas);
     status = $(status);
     sections = canvas.attr('width');
     self = {
-      view: WaveformView(canvas)
+      view: WaveformView(canvas, waveformColor)
     };
     req = new XMLHttpRequest();
     req.open('GET', file, true);
@@ -32,13 +32,11 @@
     };
     return self;
   };
-
-  this.WaveformView = function(canvas) {
+  this.WaveformView = function(canvas, waveformColor) {
     var ctx, cursor, height, overlay, self, width, _ref;
     _ref = canvas[0], width = _ref.width, height = _ref.height;
     ctx = canvas[0].getContext('2d');
-    ctx.fillStyle = 'black';
-    cursor = $("<div style=\"\n  position: relative;\n  height: " + height + "px;\n  width: 2px;\n  background-color: blue;\">");
+    cursor = $("<div style=\"\n  position: relative;\n  height: " + height + "px;\n  width: 2px;\n  background-color: #800;\">");
     overlay = $("<div style=\"\n  position: relative;\n  top: -" + height + "px;\n  height: 0px;\">");
     overlay.append(cursor);
     canvas.after(overlay);
@@ -50,8 +48,14 @@
     });
     return self = {
       drawBar: function(i, val) {
-        var h;
+        var gradient, h;
         h = val * 50 * height;
+        gradient = ctx.createLinearGradient(0, height / 2 - h / 2, 0, height / 2 + h / 2);
+        gradient.addColorStop(0.0, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 0)");
+        gradient.addColorStop(0.4, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 1)");
+        gradient.addColorStop(0.6, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 1)");
+        gradient.addColorStop(1.0, "rgba(" + waveformColor.r + "," + waveformColor.g + "," + waveformColor.b + ", 0)");
+        ctx.fillStyle = gradient;
         return ctx.fillRect(i, height / 2 - h / 2, 1, h);
       },
       moveCursor: function(pos) {
@@ -59,7 +63,6 @@
       }
     };
   };
-
   this.PlayBuffer = function(audio, buffer) {
     var node, paused, self, start, timeBasis, timeStart;
     node = null;
@@ -101,7 +104,6 @@
       }
     };
   };
-
   this.ProcessAudio = {
     extract: function(buffer, sections, out, done) {
       var f, i, int, len;
@@ -117,10 +119,10 @@
           i++;
           if (i >= sections) {
             clearInterval(int);
-            if (typeof done === "function") done();
+            if (typeof done === "function") {
+              done();
+            }
             break;
-          } else {
-            _results.push(void 0);
           }
         }
         return _results;
@@ -137,3 +139,4 @@
       return Math.sqrt(sum / data.length);
     }
   };
+}).call(this);
